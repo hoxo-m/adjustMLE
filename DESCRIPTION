@@ -1,0 +1,21 @@
+Package: adjustMLE
+Type: Package
+Title: MLE Adjustment for High-Dimensional Logistic Regression
+Version: 0.1.0
+Authors@R:
+    person("Koji", "Makiyama", , "hoxo.smile@gmail.com", c("aut", "cre"))
+Description: An R implementation of ProbeFrontier (Sur and Candès (2019)
+    <doi:10.1073/pnas.1810420116>). The goal of the package is to mitigate bias
+    in the maximum likelihood estimator (MLE) by adjusting estimated MLEs.
+Imports: 
+    cubature,
+    detectseparation,
+    future,
+    nleqslv,
+    parallel
+Suggests:
+    ggplot2,
+    knitr,
+    rmarkdown
+Encoding: UTF-8
+LazyData: true
