@@ -96,6 +96,10 @@ solve_equation_5 <- function(gamma_hat, kappa,
   control <- list(ftol = 1e-6)
   solution <- nleqslv::nleqslv(initial_values, equations, control = control)
 
+  if (solution$termcd != 1L) {
+    warning("nleqslv() termcd=", solution$termcd, " : ", solution$message)
+  }
+
   solution
 }
 
