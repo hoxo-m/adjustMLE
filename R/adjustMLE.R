@@ -18,6 +18,11 @@ adjustMLE <- function(fit, quiet = FALSE) {
   n <- NROW(y)
   kappa <- p / n
 
+  if (!quiet) message("Checking MLE exists...", appendLF = FALSE)
+  result <- detectseparation::detect_separation(X, y, family = binomial())
+  if (result$outcome) stop("MLE does not exist.")
+  if (!quiet) message("ok")
+
   if (!quiet) message("Searching kappa_hat...")
   kappa_hat <- search_kappa_hat(X, y, quiet = quiet)
 
