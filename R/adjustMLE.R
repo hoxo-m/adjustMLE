@@ -20,7 +20,8 @@ adjustMLE <- function(fit, quiet = FALSE) {
 
   if (!quiet) message("Checking MLE exists...", appendLF = FALSE)
   result <- detectseparation::detect_separation(X, y, family = binomial())
-  if (result$outcome) stop("MLE does not exist.")
+  is_separable <- result$outcome
+  if (is_separable) stop("MLE does not exist.")
   if (!quiet) message("ok")
 
   if (!quiet) message("Searching kappa_hat...")
