@@ -66,7 +66,7 @@ adjustMLE <- function(fit, quiet = FALSE) {
     "parameters", "coefficients", "residuals", "fitted.values", "rank",
     "family", "linear.predictors", "deviance", "aic", "null.deviance", "iter",
     "prior.weights", "df.residual", "df.null", "converged", "boundary",
-    "call", "x", "y"
+    "call", "y"
   )
   fit_adj <- structure(fit[keep], class = c("adjustMLE", class(fit)))
   fit_adj
