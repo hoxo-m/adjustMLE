@@ -33,17 +33,7 @@ search_kappa_hat <- function(X, y, quiet = FALSE, B = 50L, kappa_step = 1e-3,
   if (!is.null(seed)) set.seed(seed)
 
   # binary search until kappa_max - kappa_min <= kappa_step
-  n_search <- log2(kappa_max - kappa_min) - log2(kappa_step)
-
-  # narrow search range to reduce n_search and speed up
-  if (ceiling(n_search) != round(n_search)) {
-    epsilon <- kappa_max - kappa_min - 2^n_search * kappa_step
-    kappa_min <- kappa_min + epsilon/2
-    kappa_max <- kappa_max - epsilon/2
-    n_search <- round(n_search)
-  } else {
-    n_search <- ceiling(n_search)
-  }
+  n_search <- ceiling(log2(kappa_max - kappa_min) - log2(kappa_step))
 
   if (!quiet) pb <- txtProgressBar(style = 3, min = 0, max = n_search * B)
   is_speed_over_accuracy <- TRUE
