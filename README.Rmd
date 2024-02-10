@@ -82,7 +82,9 @@ remotes::install_github("hoxo-m/adjustMLE")
 
 ## Related Work
 
-- SLOE (Python)
+- glmhd (R package on GitHub)
+    - https://github.com/zq00/glmhd
+- SLOE (Python code)
     - https://github.com/google-research/sloe-logistic
 
 ## References
