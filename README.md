@@ -20,19 +20,19 @@ achieve this, we implemented two methods:
 - “SLOE,” as proposed by Yadlowsky et al. (2021).
 
 For example, let’s consider a scenario where the number of input
-variables p = 360, and the true parameters consist of 10 for the first
+variables p = 240, and the true parameters consist of 10 for the first
 1/3, -10 for the next 1/3, and 0 for the remaining 1/3. Additionally,
-consider the sample size n = 3000. In such a case, the MLE returned by
+consider the sample size n = 1200 In such a case, the MLE returned by
 `glm()` contains a non-negligible bias.
 
 ``` r
-n <- 3000
-p <- 360
+n <- 1200
+p <- 240
 
 set.seed(314)
 x <- rnorm(n * p, mean = 0, sd = sqrt(1/n))
 X <- matrix(x, nrow = n, ncol = p)
-beta <- c(rep(10, 120), rep(-10, 120), rep(0, 120))
+beta <- rep(c(10, -10, 0), each = 80)
 prob <- plogis(X %*% beta)
 y <- rbinom(n, 1, prob)
 
@@ -43,10 +43,10 @@ theme_set(theme_bw())
 df <- data.frame(index = seq_len(p), mle = coef(fit)[-1])
 ggplot(df, aes(index, mle)) +
   geom_point(color = "blue") +
-  annotate("segment", x = c(0, 120, 240), xend = c(120, 240, 360), 
+  annotate("segment", x = c(0, 80, 160), xend = c(80, 160, 240), 
            y = c(10, -10, 0), yend = c(10, -10, 0), linewidth = 1.5) +
-  scale_x_continuous(breaks = c(0, 120, 240, 360)) +
-  ylim(-23, 23) + xlab("Index of parameters") + ylab("MLE") +
+  scale_x_continuous(breaks = c(0, 80, 160, 240)) +
+  ylim(-50, 50) + xlab("Index of parameters") + ylab("MLE") +
   ggtitle("True (black line) and MLE (blue point)")
 ```
 
@@ -66,10 +66,10 @@ fit_adj <- adjustMLE(fit)
 df <- data.frame(index = seq_len(p), mle = coef(fit_adj)[-1])
 ggplot(df, aes(index, mle)) +
   geom_point(color = "blue") +
-  annotate("segment", x = c(0, 120, 240), xend = c(120, 240, 360), 
+  annotate("segment", x = c(0, 80, 160), xend = c(80, 160, 240), 
            y = c(10, -10, 0), yend = c(10, -10, 0), linewidth = 1.5) +
   scale_x_continuous(breaks = c(0, 120, 240, 360)) +
-  ylim(-23, 23) + xlab("Index of parameters") + ylab("Adjusted MLE") +
+  ylim(-30, 30) + xlab("Index of parameters") + ylab("Adjusted MLE") +
   ggtitle("True (black line) and adjusted MLE (blue point)")
 ```
 
