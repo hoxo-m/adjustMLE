@@ -14,13 +14,15 @@ However, in the analysis of high-dimensional data, the sample size is
 sometimes relatively small compared to the dimension of input variables.
 
 The goal of the package is to alleviate bias by adjusting the MLE. To
-achieve this, we implemented a method called “ProbeFrontier,” as
-proposed by Sur and Candès (2019).
+achieve this, we implemented two methods:
+
+- “ProbeFrontier,” as proposed by Sur and Candès (2018), and
+- “SLOE,” as proposed by Yadlowsky et al. (2021).
 
 For example, let’s consider a scenario where the number of input
-variables p = 180, and the true parameters consist of 10 for the first
+variables p = 360, and the true parameters consist of 10 for the first
 1/3, -10 for the next 1/3, and 0 for the remaining 1/3. Additionally,
-consider the sample size n = 900. In such a case, the MLE returned by
+consider the sample size n = 3000. In such a case, the MLE returned by
 `glm()` contains a non-negligible bias.
 
 ``` r
@@ -44,7 +46,7 @@ ggplot(df, aes(index, mle)) +
   annotate("segment", x = c(0, 120, 240), xend = c(120, 240, 360), 
            y = c(10, -10, 0), yend = c(10, -10, 0), linewidth = 1.5) +
   scale_x_continuous(breaks = c(0, 120, 240, 360)) +
-  ylim(-25, 25) + xlab("Index of parameters") + ylab("MLE") +
+  ylim(-23, 23) + xlab("Index of parameters") + ylab("MLE") +
   ggtitle("True (black line) and MLE (blue point)")
 ```
 
@@ -67,7 +69,7 @@ ggplot(df, aes(index, mle)) +
   annotate("segment", x = c(0, 120, 240), xend = c(120, 240, 360), 
            y = c(10, -10, 0), yend = c(10, -10, 0), linewidth = 1.5) +
   scale_x_continuous(breaks = c(0, 120, 240, 360)) +
-  ylim(-25, 25) + xlab("Index of parameters") + ylab("Adjusted MLE") +
+  ylim(-23, 23) + xlab("Index of parameters") + ylab("Adjusted MLE") +
   ggtitle("True (black line) and adjusted MLE (blue point)")
 ```
 
@@ -91,7 +93,10 @@ remotes::install_github("hoxo-m/adjustMLE")
 
 ## References
 
-- Sur P, Candès EJ. A modern maximum-likelihood theory for
-  high-dimensional logistic regression. Proc Natl Acad Sci U S A. 2019
-  Jul 16;116(29):14516-14525. doi: 10.1073/pnas.1810420116. Epub 2019
-  Jul 1. PMID: 31262828; PMCID: PMC6642380.
+- Sur, P., & Candès, E.J. (2018). A modern maximum-likelihood theory for
+  high-dimensional logistic regression. Proceedings of the National
+  Academy of Sciences of the United States of America, 116, 14516 -
+  14525.
+- Yadlowsky, S., Yun, T., McLean, C.Y., & D’Amour, A. (2021). SLOE: A
+  Faster Method for Statistical Inference in High-Dimensional Logistic
+  Regression. Neural Information Processing Systems.
