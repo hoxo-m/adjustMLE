@@ -24,14 +24,14 @@ consider the sample size n = 900. In such a case, the MLE returned by
 `glm()` contains a non-negligible bias.
 
 ``` r
-n <- 900
-p <- 180
+n <- 3000
+p <- 360
 
 set.seed(314)
 x <- rnorm(n * p, mean = 0, sd = sqrt(1/n))
 X <- matrix(x, nrow = n, ncol = p)
-beta <- c(rep(10, 60), rep(-10, 60), rep(0, 60))
-prob <- 1 / (1 + exp(-(X %*% beta)))
+beta <- c(rep(10, 120), rep(-10, 120), rep(0, 120))
+prob <- plogis(X %*% beta)
 y <- rbinom(n, 1, prob)
 
 fit <- glm(y ~ X, family = binomial, x = TRUE)
@@ -41,10 +41,10 @@ theme_set(theme_bw())
 df <- data.frame(index = seq_len(p), mle = coef(fit)[-1])
 ggplot(df, aes(index, mle)) +
   geom_point(color = "blue") +
-  annotate("segment", x = c(0, 60, 120), xend = c(60, 120, 180), 
+  annotate("segment", x = c(0, 120, 240), xend = c(120, 240, 360), 
            y = c(10, -10, 0), yend = c(10, -10, 0), linewidth = 1.5) +
-  scale_x_continuous(breaks = c(0, 60, 120, 180)) +
-  ylim(-40, 40) + xlab("Index of parameters") + ylab("MLE") +
+  scale_x_continuous(breaks = c(0, 120, 240, 360)) +
+  ylim(-25, 25) + xlab("Index of parameters") + ylab("MLE") +
   ggtitle("True (black line) and MLE (blue point)")
 ```
 
@@ -64,10 +64,10 @@ fit_adj <- adjustMLE(fit)
 df <- data.frame(index = seq_len(p), mle = coef(fit_adj)[-1])
 ggplot(df, aes(index, mle)) +
   geom_point(color = "blue") +
-  annotate("segment", x = c(0, 60, 120), xend = c(60, 120, 180), 
+  annotate("segment", x = c(0, 120, 240), xend = c(120, 240, 360), 
            y = c(10, -10, 0), yend = c(10, -10, 0), linewidth = 1.5) +
-  scale_x_continuous(breaks = c(0, 60, 120, 180)) +
-  ylim(-40, 40) + xlab("Index of parameters") + ylab("Adjusted MLE") +
+  scale_x_continuous(breaks = c(0, 120, 240, 360)) +
+  ylim(-25, 25) + xlab("Index of parameters") + ylab("Adjusted MLE") +
   ggtitle("True (black line) and adjusted MLE (blue point)")
 ```
 

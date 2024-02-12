@@ -4,11 +4,12 @@
 #' @param quiet logical.
 #'
 #' @export
-adjustMLE <- function(fit, quiet = FALSE) {
-
+adjustMLE <- function(fit, method = c("SLOE", "ProbeFrontier"), quiet = FALSE) {
   if (!is_binomial(fit$family)) stop("must glm(family = binomial())")
   if (length(fit$x) == 0) stop("must glm(x = TRUE)")
   if (length(fit$y) == 0) stop("must glm(y = TRUE)")
+
+  method <- match.arg(method)
 
   X <- fit$x
   X <- X[, colnames(X) != "(Intercept)"]
@@ -24,16 +25,28 @@ adjustMLE <- function(fit, quiet = FALSE) {
   if (is_separable) stop("MLE does not exist.")
   if (!quiet) message("ok")
 
-  if (!quiet) message("Searching kappa_hat...")
-  kappa_hat <- search_kappa_hat(X, y, quiet = quiet)
+  if (method == "SLOE") {
+    kappa_hat <- gamma_hat <- NULL
 
-  if (!quiet) message("Estimating gamma...", appendLF = FALSE)
-  gamma_hat <- estimate_gamma(kappa_hat)$root
-  if (!quiet) message("done")
+    if (!quiet) message("Estimating eta...", appendLF = FALSE)
+    eta2_hat <- estimate_eta_square(fit, X)
+    if (!quiet) message("done")
 
-  if (!quiet) message("Solving equation [5]...", appendLF = FALSE)
-  solution <- solve_equation_5(gamma_hat, kappa = kappa)$x
-  if (!quiet) message("done")
+    if (!quiet) message("Solving equation (2.6)...", appendLF = FALSE)
+    solution <- solve_equation_2_6(eta2_hat, kappa = kappa)$x
+    if (!quiet) message("done")
+  } else if (method == "ProbeFrontier") {
+    if (!quiet) message("Searching kappa_hat...")
+    kappa_hat <- search_kappa_hat(X, y, quiet = quiet)
+
+    if (!quiet) message("Estimating gamma...", appendLF = FALSE)
+    gamma_hat <- estimate_gamma(kappa_hat)$root
+    if (!quiet) message("done")
+
+    if (!quiet) message("Solving equation [5]...", appendLF = FALSE)
+    solution <- solve_equation_5(gamma_hat, kappa = kappa)$x
+    if (!quiet) message("done")
+  }
 
   alpha_hat <- solution[1]
   sigma_squared_hat <- solution[2]
