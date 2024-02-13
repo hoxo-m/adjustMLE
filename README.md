@@ -20,10 +20,11 @@ achieve this, we implemented two methods:
 - “SLOE,” as proposed by Yadlowsky et al. (2021).
 
 For example, let’s consider a scenario where the number of input
-variables p = 240, and the true parameters consist of 10 for the first
-1/3, -10 for the next 1/3, and 0 for the remaining 1/3. Additionally,
-consider the sample size n = 1200 In such a case, the MLE returned by
-`glm()` contains a non-negligible bias.
+variables `p = 240`, and the true parameters `beta` consist of
+`beta = 10` for the first 1/3, `beta = -10` for the next 1/3, and
+`beta = 0` for the remaining 1/3. Additionally, consider the sample size
+`n = 1200`. In such a case, the MLE returned by `glm()` contains a
+non-negligible bias.
 
 ``` r
 n <- 1200
@@ -32,7 +33,7 @@ p <- 240
 set.seed(314)
 x <- rnorm(n * p, mean = 0, sd = sqrt(1/n))
 X <- matrix(x, nrow = n, ncol = p)
-beta <- rep(c(10, -10, 0), each = 80)
+beta <- rep(c(10, -10, 0), each = p/3)
 prob <- plogis(X %*% beta)
 y <- rbinom(n, 1, prob)
 
@@ -52,7 +53,7 @@ ggplot(df, aes(index, mle)) +
 
 ![](man/figures/README-biasedMLE-1.png)<!-- -->
 
-You can observe that the blue points (MLE) are significantly outside the
+You can see that the blue points (MLE) are significantly outside the
 perimeter of the black line (true).
 
 The `adjustMLE` function in our package is designed to mitigate this
