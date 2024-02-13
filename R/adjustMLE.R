@@ -1,12 +1,17 @@
-#' adjust MLE
+#' Adjust MLE
 #'
 #' @param fit glm object.
+#' @param method a character. "SLOE" (default) or "ProbeFrontier".
+#' @param check_MLE logical. If TRUE (default), check MLE exists.
 #' @param quiet logical.
+#'
+#' @return modified glm object
 #'
 #' @export
 adjustMLE <- function(fit, method = c("SLOE", "ProbeFrontier"),
                       check_MLE = TRUE,
                       quiet = FALSE) {
+
   if (!is_binomial(fit$family)) stop("must glm(family = binomial())")
   if (length(fit$x) == 0) stop("must glm(x = TRUE)")
   if (length(fit$y) == 0) stop("must glm(y = TRUE)")
@@ -37,7 +42,7 @@ adjustMLE <- function(fit, method = c("SLOE", "ProbeFrontier"),
     if (!quiet) message("done")
 
     if (!quiet) message("Solving equation (2.6)...", appendLF = FALSE)
-    solution <- solve_equation_2_6(eta2_hat, kappa = kappa)$x
+    solution <- solve_the_system_of_equations_with_eta(eta2_hat, kappa)$x
     if (!quiet) message("done")
   } else if (method == "ProbeFrontier") {
     if (!quiet) message("Searching kappa_hat...")
@@ -48,7 +53,7 @@ adjustMLE <- function(fit, method = c("SLOE", "ProbeFrontier"),
     if (!quiet) message("done")
 
     if (!quiet) message("Solving equation [5]...", appendLF = FALSE)
-    solution <- solve_equation_5(gamma_hat, kappa = kappa)$x
+    solution <- solve_the_system_of_equations_with_gamma(gamma_hat, kappa)$x
     if (!quiet) message("done")
   }
 
@@ -64,7 +69,7 @@ adjustMLE <- function(fit, method = c("SLOE", "ProbeFrontier"),
   # equation [11]
   factor_for_chi_squared <- kappa * sigma_squared / lambda
 
-  # change fit
+  # modify fit
   fit$coefficients <- fit$coefficients / alpha
 
   family <- binomial()

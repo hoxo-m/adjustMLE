@@ -3,8 +3,6 @@
 #' @param kappa_hat double
 #'
 #' @return estimated gamma
-#'
-#' @export
 estimate_gamma <- function(kappa_hat) {
   # expected value in equation [4]
   objective <- function(t, gamma) {

@@ -1,15 +1,19 @@
-# Estimate corrupted signal strength
+#' Estimate corrupted signal strength
+#'
+#' @param fit glm object
+#' @param X input data
+#'
+#' @return estimated eta squared
 estimate_eta_square <- function(fit, X) {
   d <- ncol(X)
   n <- nrow(X)
 
-  g <- logistic
   g_d <- logistic_derivative
 
   logit <- predict(fit, type = "link")
   resid <- residuals(fit, type = "response")
 
-  # equation (3.3)
+  # inverse Hessian matrix (equation (3.3))
   H_factor <- g_d(logit)
   H <- matrix(0, d, d)
   for (i in seq_len(n)) {
@@ -22,7 +26,7 @@ estimate_eta_square <- function(fit, X) {
 
   S <- logit + resid * U / (1 + H_factor * U)
 
-  # equation (3.4)
+  # variance of S (equation (3.4))
   eta2_hat <- mean(S^2) - mean(S)^2
   eta2_hat
 }

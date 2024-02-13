@@ -1,5 +1,16 @@
-solve_SE_system <- function(Sigma, kappa,
-                            initial_values = c(2, 1, 1), tol = 0.08) {
+#' Solve the system of three non-linear equations.
+#' Equation [5] from Sur and Candès (2018).
+#' Equation (2.6) from Yadlowsky et al. (2021).
+#'
+#' @param Sigma function to calculate covariance matrix
+#' @param kappa numeric. called "dimensionality" or "aspect ratio"
+#' @param initial_values numeric vector of three elements
+#' @param tol numeric. tolerance of integral
+#'
+#' @return solution contains x = [alpha, sigma_squared, lambda]
+solve_the_system_of_equations <- function(Sigma, kappa,
+                                          initial_values = c(2, 1, 1),
+                                          tol = 0.08) {
   # sigmoid function and its derivative and integral
   rho <- logistic_integral
   rho_d <- logistic
@@ -58,7 +69,7 @@ solve_SE_system <- function(Sigma, kappa,
     result$integral
   }
 
-  # the system of nonlinear equations [5]
+  # the system of non-linear equations
   equations <- function(params) {
     alpha <- params[1]
     sigma2 <- params[2]
@@ -73,7 +84,7 @@ solve_SE_system <- function(Sigma, kappa,
     c(eq1, eq2, eq3)
   }
 
-  # solve the equations [5]
+  # solve the equations
   control <- list(ftol = 1e-6)
   solution <- nleqslv::nleqslv(initial_values, equations, control = control)
 
