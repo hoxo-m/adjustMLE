@@ -6,6 +6,14 @@
 \usage{
 estimate_eta_square(fit, X)
 }
+\arguments{
+\item{fit}{glm object}
+
+\item{X}{input data}
+}
+\value{
+estimated eta squared
+}
 \description{
 Estimate corrupted signal strength
 }

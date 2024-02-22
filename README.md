@@ -13,22 +13,20 @@ normality, the bias can be disregarded when the sample size is large.
 However, in the analysis of high-dimensional data, the sample size is
 sometimes relatively small compared to the dimension of input variables.
 
-The goal of the package is to alleviate bias by adjusting the MLE. To
-achieve this, we implemented two methods:
-
-- “ProbeFrontier,” as proposed by Sur and Candès (2018), and
-- “SLOE,” as proposed by Yadlowsky et al. (2021).
-
 For example, let’s consider a scenario where the number of input
-variables `p = 240`, and the true parameters `beta` consist of
-`beta = 10` for the first 1/3, `beta = -10` for the next 1/3, and
-`beta = 0` for the remaining 1/3. Additionally, consider the sample size
-`n = 1200`. In such a case, the MLE returned by `glm()` contains a
-non-negligible bias.
+variables `p = 240`, and the sample size `n = 1200`. Additionally, the
+true parameters `beta` consist of
+
+- `beta = 10` for the first 1/3,
+- `beta = -10` for the next 1/3, and
+- `beta = 0` for the remaining 1/3.
+
+In such a case, the MLE returned by `glm()` contains a non-negligible
+bias.
 
 ``` r
-n <- 1200
 p <- 240
+n <- 1200
 
 set.seed(314)
 x <- rnorm(n * p, mean = 0, sd = sqrt(1/n))
@@ -55,6 +53,12 @@ ggplot(df, aes(index, mle)) +
 
 You can see that the blue points (MLE) are significantly outside the
 perimeter of the black line (true).
+
+The purpose of this package is to alleviate the bias by adjusting the
+MLE. To achieve this, we implemented two methods:
+
+- “ProbeFrontier,” as proposed by Sur and Candès (2018), and
+- “SLOE,” as proposed by Yadlowsky et al. (2021).
 
 The `adjustMLE` function in our package is designed to mitigate this
 bias.
