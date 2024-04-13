@@ -64,6 +64,8 @@ adjustMLE <- function(fit, method = c("SLOE", "ProbeFrontier"),
   if (method == "SLOE") {
     kappa_hat <- NA_real_
     gamma_hat <- sqrt((eta2_hat - kappa * sigma_squared) / (alpha^2))
+  } else if (method == "ProbeFrontier") {
+    eta2_hat <- NA_real_
   }
 
   # equation [11]
@@ -87,7 +89,8 @@ adjustMLE <- function(fit, method = c("SLOE", "ProbeFrontier"),
   fit$parameters <- list(
     alpha = alpha, sigma_squared = sigma_squared, lambda = lambda,
     factor_for_chi_squared = factor_for_chi_squared,
-    kappa = kappa, kappa_hat = kappa_hat, gamma_hat = gamma_hat
+    kappa = kappa, kappa_hat = kappa_hat, gamma_hat = gamma_hat,
+    eta_hat = eta2_hat
   )
 
   keep <- c(

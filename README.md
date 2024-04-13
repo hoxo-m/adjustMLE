@@ -80,6 +80,35 @@ ggplot(df, aes(index, mle)) +
 
 ![](man/figures/README-adjustedMLE-1.png)<!-- -->
 
+### Estimated Parameters for Adjustment Methods
+
+``` r
+fit_adj$parameters
+#> $alpha
+#> [1] 2.10323
+#> 
+#> $sigma_squared
+#> [1] 0.01699888
+#> 
+#> $lambda
+#> [1] -0.08070794
+#> 
+#> $factor_for_chi_squared
+#> [1] -0.04212444
+#> 
+#> $kappa
+#> [1] 0.2
+#> 
+#> $kappa_hat
+#> [1] NA
+#> 
+#> $gamma_hat
+#> [1] 3.783616
+#> 
+#> $eta_hat
+#> [1] 63.33022
+```
+
 ## Installation
 
 You can install the package from GitHub.
