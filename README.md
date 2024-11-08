@@ -25,7 +25,7 @@ In such a case, the MLE returned by `glm()` contains a non-negligible
 bias.
 
 ``` r
-p <- 240
+p <- 180
 n <- 1200
 
 set.seed(314)
@@ -42,10 +42,10 @@ theme_set(theme_bw())
 df <- data.frame(index = seq_len(p), mle = coef(fit)[-1])
 ggplot(df, aes(index, mle)) +
   geom_point(color = "blue") +
-  annotate("segment", x = c(0, 80, 160), xend = c(80, 160, 240), 
+  annotate("segment", x = c(0, 60, 120), xend = c(60, 120, 180), 
            y = c(10, -10, 0), yend = c(10, -10, 0), linewidth = 1.5) +
-  scale_x_continuous(breaks = c(0, 80, 160, 240)) +
-  ylim(-50, 50) + xlab("Index of parameters") + ylab("MLE") +
+  scale_x_continuous(breaks = c(0, 60, 120, 180)) +
+  ylim(-30, 30) + xlab("Index of parameters") + ylab("MLE") +
   ggtitle("True (black line) and MLE (blue point)")
 ```
 
@@ -71,9 +71,9 @@ fit_adj <- adjustMLE(fit)
 df <- data.frame(index = seq_len(p), mle = coef(fit_adj)[-1])
 ggplot(df, aes(index, mle)) +
   geom_point(color = "blue") +
-  annotate("segment", x = c(0, 80, 160), xend = c(80, 160, 240), 
+  annotate("segment", x = c(0, 60, 120), xend = c(60, 120, 180), 
            y = c(10, -10, 0), yend = c(10, -10, 0), linewidth = 1.5) +
-  scale_x_continuous(breaks = c(0, 120, 240, 360)) +
+  scale_x_continuous(breaks = c(0, 60, 120, 180)) +
   ylim(-30, 30) + xlab("Index of parameters") + ylab("Adjusted MLE") +
   ggtitle("True (black line) and adjusted MLE (blue point)")
 ```
@@ -85,28 +85,28 @@ ggplot(df, aes(index, mle)) +
 ``` r
 fit_adj$parameters
 #> $alpha
-#> [1] 2.10323
+#> [1] 1.239376
 #> 
 #> $sigma_squared
-#> [1] 0.01699888
+#> [1] 12.10232
 #> 
 #> $lambda
-#> [1] -0.08070794
+#> [1] 1.879559
 #> 
 #> $factor_for_chi_squared
-#> [1] -0.04212444
+#> [1] 0.9658375
 #> 
 #> $kappa
-#> [1] 0.2
+#> [1] 0.15
 #> 
 #> $kappa_hat
 #> [1] NA
 #> 
 #> $gamma_hat
-#> [1] 3.783616
+#> [1] 3.338216
 #> 
 #> $eta_hat
-#> [1] 63.33022
+#> [1] 18.93264
 ```
 
 ## Installation

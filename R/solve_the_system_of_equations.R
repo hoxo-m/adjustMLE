@@ -56,7 +56,7 @@ solve_the_system_of_equations <- function(Sigma, kappa,
       value <- rho_d(q[1]) * q[1] * lambda * rho_d(prox(q[2], lambda))
       value * pdf_normal_2d(q[1], q[2])
     }
-    result <- cubature::pcubature(integrand, c(-10, -10), c(10, 10), tol = tol)
+    result <- cubature::pcubature(integrand, c(-10, -10), c(10, 10), tol = tol, absError = 0)
     result$integral
   }
 

@@ -33,7 +33,7 @@ Additionally, the true parameters `beta` consist of
 In such a case, the MLE returned by `glm()` contains a non-negligible bias.
 
 ```{r biasedMLE}
-p <- 240
+p <- 180
 n <- 1200
 
 set.seed(314)
@@ -50,10 +50,10 @@ theme_set(theme_bw())
 df <- data.frame(index = seq_len(p), mle = coef(fit)[-1])
 ggplot(df, aes(index, mle)) +
   geom_point(color = "blue") +
-  annotate("segment", x = c(0, 80, 160), xend = c(80, 160, 240), 
+  annotate("segment", x = c(0, 60, 120), xend = c(60, 120, 180), 
            y = c(10, -10, 0), yend = c(10, -10, 0), linewidth = 1.5) +
-  scale_x_continuous(breaks = c(0, 80, 160, 240)) +
-  ylim(-50, 50) + xlab("Index of parameters") + ylab("MLE") +
+  scale_x_continuous(breaks = c(0, 60, 120, 180)) +
+  ylim(-30, 30) + xlab("Index of parameters") + ylab("MLE") +
   ggtitle("True (black line) and MLE (blue point)")
 ```
 
@@ -67,7 +67,7 @@ To achieve this, we implemented two methods:
 
 The `adjustMLE` function in our package is designed to mitigate this bias.
 
-```{r adjustedMLE, cache=TRUE, results='hide'}
+```{r adjustedMLE, results='hide'}
 library(adjustMLE)
 
 fit_adj <- adjustMLE(fit)
@@ -75,9 +75,9 @@ fit_adj <- adjustMLE(fit)
 df <- data.frame(index = seq_len(p), mle = coef(fit_adj)[-1])
 ggplot(df, aes(index, mle)) +
   geom_point(color = "blue") +
-  annotate("segment", x = c(0, 80, 160), xend = c(80, 160, 240), 
+  annotate("segment", x = c(0, 60, 120), xend = c(60, 120, 180), 
            y = c(10, -10, 0), yend = c(10, -10, 0), linewidth = 1.5) +
-  scale_x_continuous(breaks = c(0, 120, 240, 360)) +
+  scale_x_continuous(breaks = c(0, 60, 120, 180)) +
   ylim(-30, 30) + xlab("Index of parameters") + ylab("Adjusted MLE") +
   ggtitle("True (black line) and adjusted MLE (blue point)")
 ```
