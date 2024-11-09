@@ -39,7 +39,7 @@ n <- 2000
 set.seed(314)
 x <- rnorm(n * p, mean = 0, sd = sqrt(1/n))
 X <- matrix(x, nrow = n, ncol = p)
-beta <- rep(c(10, -10, 0), each = p/3)
+beta <- matrix(rep(c(10, -10, 0), each = p/3), nrow = p, ncol = 1)
 prob <- plogis(X %*% beta)
 y <- rbinom(n, 1, prob)
 
