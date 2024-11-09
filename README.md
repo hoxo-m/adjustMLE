@@ -14,7 +14,7 @@ However, in the analysis of high-dimensional data, the sample size is
 sometimes relatively small compared to the dimension of input variables.
 
 For example, let’s consider a scenario where the number of input
-variables `p = 240`, and the sample size `n = 1200`. Additionally, the
+variables `p = 300`, and the sample size `n = 2000`. Additionally, the
 true parameters `beta` consist of
 
 - `beta = 10` for the first 1/3,
